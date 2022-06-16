@@ -1,0 +1,7 @@
+/node_modules/*
+# packages/common/src/db/migrations/*
+/src/db/migrations/*
+build
+lock_node_version.js
+
+.eslintrc.js
