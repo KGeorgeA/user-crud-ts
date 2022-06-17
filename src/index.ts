@@ -1,4 +1,4 @@
-import log from './logger';
+import log from './utils';
 import config from './config';
 import app from './app';
 

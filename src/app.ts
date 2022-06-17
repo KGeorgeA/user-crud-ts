@@ -1,5 +1,4 @@
 import express from 'express';
-import logger from './logger';
 import cors from './middlewares/cors';
 // import errorHandler from './utils/errorHandler';
 

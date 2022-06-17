@@ -1,5 +1,5 @@
 import type { Express } from 'express';
-import userRouter from './user';
+import userRouter from './user.router';
 
 export default (app: Express) => {
   // return app.use(userRouter);

@@ -1,25 +1,20 @@
-// import usersService from 'src/db/services/users';
 import { Request, Response } from 'express';
-import logger from 'src/logger';
-import { StatusCodes, ReasonPhrases } from 'http-status-codes';
-import { UserType } from 'src/utils/types';
+import { StatusCodes } from 'http-status-codes';
+import logger from 'src/utils';
+import authService, { SignUpParamsType } from 'src/services/auth.service';
+// import createError, { createInternalServerError } from 'src/utils/createError';
 
-const createUser = async (
-  req: Request<unknown, unknown, Omit<UserType, 'id'>>,
+const signUp = async (
+  req: Request<unknown, unknown, SignUpParamsType>,
   res: Response,
 ) => {
   try {
     const data = {
-      firstName: req.body.firstName,
-      secondName: req.body.secondName,
-      DoB: req.body.DoB,
       email: req.body.email,
-      phone: req.body.phone,
-      age: req.body.age,
-      isMale: req.body.isMale,
+      password: req.body.password,
     };
 
-    // const newUser = false;// await usersService.signUp(data);
+    const newUser = await authService.signUp(data);
 
     // if (!user) {
     //   logger.info('User already exist');
@@ -29,14 +24,11 @@ const createUser = async (
 
     res
       .status(StatusCodes.CREATED)
-      // json have to return token and user itself
-      .json({ message: ReasonPhrases.CREATED, data });
+      .json({ token: 'TOOOKEN', newUser });
   } catch (error) {
-    logger.error(error, 'Error occure in createUser controller');
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json(ReasonPhrases.INTERNAL_SERVER_ERROR);
+    logger.error(error, 'Error occure in signUp controller');
+    // throw createInternalServerError();
   }
 };
 
-export default createUser;
+export default signUp;

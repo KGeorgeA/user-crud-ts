@@ -1,4 +1,6 @@
 import pino from 'pino';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ru';
 
 const logger = pino({
   transport: {
@@ -7,7 +9,7 @@ const logger = pino({
       colorize: true,
     },
   },
-  timestamp: () => `,"time":"${new Date(Date.now()).toLocaleString()}"`,
+  timestamp: () => `,"time":"${dayjs().format('DD.MM.YYYY HH:mm:ss')}"`,
   base: {
     pid: false,
   },

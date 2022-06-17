@@ -1,4 +1,4 @@
-import usersService from 'src/db/services/users';
+import usersService from 'src/db/services/users.service';
 import { StatusCodes } from 'http-status-codes';
 import type { RequestHandler } from 'express';
 import type { UserType } from 'src/utils/types';

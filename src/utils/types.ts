@@ -22,4 +22,5 @@ export type UserType = {
   email: string;
   phone: string;
   DoB: Date;
+  password: string;
 };

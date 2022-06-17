@@ -1,7 +1,7 @@
 // TO-DO: uncomment when done with db connection
 // import USER_MODEL from '../models/User';
 // import { StatusCodes } from 'http-status-codes';
-import logger from 'src/logger';
+import logger from 'src/utils';
 // import createError, { createInternalServerError } from 'src/utils/createError';
 
 // this crap is done as well
@@ -36,13 +36,7 @@ const getAll = async (params: GetAllType) => {
   }
 };
 
-const create = async (params) => {
-  logger.info(params, `${create.name}, got params ->`);
-  return { code: 200, message: 'succes' };
-};
-
 export default {
   getOneByPk,
   getAll,
-  create,
 };

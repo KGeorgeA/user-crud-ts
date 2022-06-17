@@ -1,7 +1,7 @@
 // import usersService from 'src/db/services/users';
 import { Request, Response } from 'express';
 // import { StatusCodes } from 'http-status-codes';
-import logger from 'src/logger';
+import logger from 'src/utils';
 // import createError from 'src/utils/createError';
 
 const getUsersList = async (req: Request, res: Response) => {
