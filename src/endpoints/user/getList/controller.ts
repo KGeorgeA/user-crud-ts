@@ -1,8 +1,8 @@
-// import usersService from 'src/db/services/users';
+// import userService from '../../../services/user';
 import { Request, Response } from 'express';
 // import { StatusCodes } from 'http-status-codes';
-import logger from 'src/utils';
-// import createError from 'src/utils/createError';
+import logger from '../../../utils/logger';
+// import createError from '../../../utils/createError';
 
 const getUsersList = async (req: Request, res: Response) => {
   try {
@@ -21,9 +21,9 @@ const getUsersList = async (req: Request, res: Response) => {
       Prepare Filter Logic
     */
 
-    // const data = await usersService.getAll(filter);
+    // const data = await userService.getAll(filter);
     // res.status(StatusCodes.OK).json(data);
-    logger.info(req.query);
+    logger.info(req.query, 'getUsersList');
     res.json(req.query);
   } catch (error) {
     //

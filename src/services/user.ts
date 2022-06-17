@@ -1,10 +1,20 @@
 // TO-DO: uncomment when done with db connection
 // import USER_MODEL from '../models/User';
+import logger from '../utils/logger';
 // import { StatusCodes } from 'http-status-codes';
-import logger from 'src/utils';
-// import createError, { createInternalServerError } from 'src/utils/createError';
+// import createError, { createInternalServerError } from '../utils/createError';
 
-// this crap is done as well
+const updatePassword = async (params) => {
+  logger.info(params, 'updatePassword, got params ->');
+  return { worldAnswer: 42 };
+};
+
+const updateUserInfo = async (params) => {
+  logger.info(params, 'updateUserInfo, got params -> ');
+  return { worldAnswer: 42 };
+};
+
+// done as well
 const getOneByPk = async (id: number) => {
   logger.info(id, 'getOneByPk, got id -> ');
   try {
@@ -14,7 +24,7 @@ const getOneByPk = async (id: number) => {
     //   throw createError('', { code: StatusCodes.NOT_FOUND });
     // }
     // return user;
-    return { id: 2 };
+    return { worldAnswer: 42 };
   } catch (error) {
     // throw createInternalServerError();
   }
@@ -39,4 +49,6 @@ const getAll = async (params: GetAllType) => {
 export default {
   getOneByPk,
   getAll,
+  updatePassword,
+  updateUserInfo,
 };

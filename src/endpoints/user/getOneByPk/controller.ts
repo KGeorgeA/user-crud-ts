@@ -1,7 +1,7 @@
-import usersService from 'src/db/services/users.service';
 import { StatusCodes } from 'http-status-codes';
 import type { RequestHandler } from 'express';
-import type { UserType } from 'src/utils/types';
+import userService from '../../../services/user';
+import type { UserType } from '../../../utils/types';
 
 type GetOneRequestBody = UserType;
 type GetOneParams = Pick<UserType, 'id'>;
@@ -10,7 +10,7 @@ const getOneByPk: GetOneType = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const data = await usersService.getOneByPk(id);
+    const data = await userService.getOneByPk(id);
     res.status(200).json(data);
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json('something went wrong while getting one person');

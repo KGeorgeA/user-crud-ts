@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import logger from 'src/utils';
-import authService, { SignUpParamsType } from 'src/services/auth.service';
-// import createError, { createInternalServerError } from 'src/utils/createError';
+import logger from '../../../utils/logger';
+import authService, { SignUpParamsType } from '../../../services/auth';
+// import createError, { createInternalServerError } from '../../../utils/createError';
 
 const signUp = async (
   req: Request<unknown, unknown, SignUpParamsType>,

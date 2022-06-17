@@ -14,7 +14,9 @@ type EnvNames =
   | 'DB__HOST'
   | 'DB__USERNAME'
   | 'DB__PASSWORD'
-  | 'DB__NAME';
+  | 'DB__NAME'
+  | 'ACCESS_TOKEN_PRIVATE_KEY'
+  | 'REFRESH_TOKEN_PRIVATE_KEY';
 
 type ParsedEnvType = {
   [key in EnvNames]: string;
@@ -40,6 +42,10 @@ const config = {
     username: parsedEnv.DB__USERNAME,
     password: parsedEnv.DB__PASSWORD,
     name: parsedEnv.DB__NAME,
+  },
+  secrets: {
+    accessTokenKey: parsedEnv.ACCESS_TOKEN_PRIVATE_KEY,
+    refreshTokenKey: parsedEnv.REFRESH_TOKEN_PRIVATE_KEY,
   },
 };
 
