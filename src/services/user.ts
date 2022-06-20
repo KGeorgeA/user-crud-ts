@@ -14,7 +14,6 @@ const updateUserInfo = async (params) => {
   return { worldAnswer: 42 };
 };
 
-// done as well
 const getOneByPk = async (id: number) => {
   logger.info(id, 'getOneByPk, got id -> ');
   try {
