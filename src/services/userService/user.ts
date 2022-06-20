@@ -1,6 +1,6 @@
 // TO-DO: uncomment when done with db connection
 // import USER_MODEL from '../models/User';
-import logger from '../utils/logger';
+import logger from '../../utils/logger';
 // import { StatusCodes } from 'http-status-codes';
 // import createError, { createInternalServerError } from '../utils/createError';
 
@@ -20,7 +20,7 @@ const getOneByPk = async (id: number) => {
     // const user = await USER_MODEL.findOneBy(id);
 
     // if (!user) {
-    //   throw createError('', { code: StatusCodes.NOT_FOUND });
+    //   throw createError();
     // }
     // return user;
     return { worldAnswer: 42 };

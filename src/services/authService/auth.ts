@@ -1,8 +1,8 @@
 // TO-DO: uncomment when done with db connection
 // import USER_MODEL from '../models/User';
 // import { StatusCodes } from 'http-status-codes';
-import logger from '../utils/logger';
-import checkIfEmailTaken from './checkIfEmailTaken';
+import logger from '../../utils/logger';
+import checkIfEmailTaken from '../checkIfEmailTaken';
 // import createError from '../utils/createError';
 // import userService from '../services/user';
 
@@ -16,7 +16,7 @@ const signUp = async (params: SignUpParamsType) => {
     const isEmailExist = await checkIfEmailTaken(params.email);
     // const user = await USER_MODEL.findOne({ where: { email: params.email } });
     // if (user) {
-    //   throw createError('Email already in use', { code: StatusCodes.CONFLICT });
+    //   throw createError();
     // }
     if (!isEmailExist) {
       return 2;

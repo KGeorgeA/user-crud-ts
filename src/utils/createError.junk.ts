@@ -1,4 +1,25 @@
-import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+import { StatusCodes, ReasonPhrases } from 'http-status-codes';
+
+type CustomPayload<D> = {
+  satusCode: number;
+  message: string;
+  data: D | null;
+}
+
+class CustomError<D> extends Error {
+  customPayload: CustomPayload<D>;
+
+  constructor(payload: CustomPayload<D>) {
+    super('custom error');
+    this.customPayload = payload;
+  }
+}
+
+const err = new CustomError({
+  satusCode: 500,
+  message: 'Something went wrong.',
+  data: null,
+});
 
 type CreateErrorParamsType = {
   code?: StatusCodes;

@@ -1,20 +1,21 @@
-import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import logger from '../../../utils/logger';
-import authService, { SignUpParamsType } from '../../../services/auth';
-// import createError, { createInternalServerError } from '../../../utils/createError';
+import authService from '../../../services/authService/auth';
+import CustomError from '../../../utils/CustomError';
+import type SignUpControllerType from './signUp.description';
 
-const signUp = async (
-  req: Request<unknown, unknown, SignUpParamsType>,
-  res: Response,
+const signUp: SignUpControllerType = async (
+  req,
+  res,
+  next,
 ) => {
   try {
-    const data = {
+    const requestData = {
       email: req.body.email,
       password: req.body.password,
     };
 
-    const newUser = await authService.signUp(data);
+    const newUser = await authService.signUp(requestData);
 
     // if (!user) {
     //   logger.info('User already exist');
@@ -24,9 +25,15 @@ const signUp = async (
 
     res
       .status(StatusCodes.CREATED)
-      .json({ token: 'TOOOKEN', newUser });
+      .json({
+        data: {
+          token: 'TOOOKEN',
+          newUser,
+        },
+      });
   } catch (error) {
     logger.error(error, 'Error occure in signUp controller');
+    next(error);
     // throw createInternalServerError();
   }
 };

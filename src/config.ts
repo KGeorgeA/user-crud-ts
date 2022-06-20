@@ -44,8 +44,14 @@ const config = {
     name: parsedEnv.DB__NAME,
   },
   secrets: {
-    accessTokenKey: parsedEnv.ACCESS_TOKEN_PRIVATE_KEY,
-    refreshTokenKey: parsedEnv.REFRESH_TOKEN_PRIVATE_KEY,
+    accessTokenKey: {
+      key: parsedEnv.ACCESS_TOKEN_PRIVATE_KEY,
+      expiresIn: '48h',
+    },
+    refreshTokenKey: {
+      key: parsedEnv.REFRESH_TOKEN_PRIVATE_KEY,
+      expiresIn: '7d',
+    },
   },
 };
 

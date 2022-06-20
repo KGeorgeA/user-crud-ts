@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import type { RequestHandler } from 'express';
-import userService from '../../../services/user';
+import userService from '../../../services/userService/user';
 import type { UserType } from '../../../utils/types';
 
 type GetOneRequestBody = UserType;

@@ -1,23 +1,22 @@
-import { Request, Response } from 'express';
-import authService from '../../../services/auth';
+import type SignInControllerType from '../signIn/signIn.description';
+import authService from '../../../services/authService/auth';
 import logger from '../../../utils/logger';
-import type { UserType } from '../../../utils/types';
 // import createError, { createInternalServerError } from '../../../utils/createError';
 
-const signIn = async (
-  req: Request<unknown, unknown, Pick<UserType, 'email' | 'password'>>,
-  res: Response,
+const signIn: SignInControllerType = async (
+  req,
+  res,
 ) => {
   logger.info(req.body, `signInController, ${__filename}`);
   try {
-    const data = {
+    const requestData = {
       email: req.body.email,
       password: req.body.password,
     };
 
-    const user = await authService.signIn(data);
+    const user = await authService.signIn(requestData);
 
-    res.json({ token: 'TOOOOKEN', user });
+    res.json({ data: { token: 'TOOOOKEN', user } });
   } catch (error) {
     logger.error(error, 'Error occure in signIn controller');
     // throw createInternalServerError();
