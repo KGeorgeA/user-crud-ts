@@ -16,7 +16,9 @@ type EnvNames =
   | 'DB__PASSWORD'
   | 'DB__NAME'
   | 'ACCESS_TOKEN_PRIVATE_KEY'
-  | 'REFRESH_TOKEN_PRIVATE_KEY';
+  | 'ACCESS_TOKEN_PRIVATE_KEY_EXPIRES_IN'
+  | 'REFRESH_TOKEN_PRIVATE_KEY'
+  | 'REFRESH_TOKEN_PRIVATE_KEY_EXPIRES_IN';
 
 type ParsedEnvType = {
   [key in EnvNames]: string;
@@ -46,11 +48,11 @@ const config = {
   secrets: {
     accessTokenKey: {
       key: parsedEnv.ACCESS_TOKEN_PRIVATE_KEY,
-      expiresIn: '48h',
+      expiresIn: parsedEnv.ACCESS_TOKEN_PRIVATE_KEY_EXPIRES_IN,
     },
     refreshTokenKey: {
       key: parsedEnv.REFRESH_TOKEN_PRIVATE_KEY,
-      expiresIn: '7d',
+      expiresIn: parsedEnv.REFRESH_TOKEN_PRIVATE_KEY_EXPIRES_IN,
     },
   },
 };

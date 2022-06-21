@@ -1,7 +1,13 @@
 import type { ErrorRequestHandler } from 'express';
+import CustomError from './CustomError';
 
-const testiruemHandler: ErrorRequestHandler = (err, req, res, next) => {
-  res.status(200).json({ });
+//                                               unknown for now
+const errorHandler: ErrorRequestHandler = (err: CustomError<unknown>, req, res, next) => {
+  res.status(err.customPayload.statusCode).json({
+    status: err.customPayload.statusCode,
+    message: err.customPayload.message,
+    data: err.customPayload.data,
+  });
 };
 
-export default testiruemHandler;
+export default errorHandler;
