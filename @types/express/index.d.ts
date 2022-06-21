@@ -1,7 +1,7 @@
-// import USER_MODEL from ''
+import { User } from 'src/db/entities/User.entity';
 
 declare namespace Express {
   export interface Request {
-    user?: { id: number }; // USER_MODEL
+    user?: User;
   }
 }
