@@ -1,11 +1,9 @@
-// import { StatusCodes } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import type ChangePasswordControllerType from './changePassword.description';
 // import userService from '../../../services/user';
-import CustomError from '../../../utils/CustomError';
-import logger from '../../../utils/logger';
+// import CustomError from '../../../utils/CustomError';
 
 const changePassword: ChangePasswordControllerType = async (req, res) => {
-  logger.info(req.params, 'changePassword params');
   try {
     // const { id } = req.params;
 
@@ -24,7 +22,7 @@ const changePassword: ChangePasswordControllerType = async (req, res) => {
 
     // await userService.updatePassword(hashedPassword);
 
-    // res.status(StatusCodes.CREATED);
+    res.status(StatusCodes.CREATED);
   } catch (error) {
     // throw new CustomError({});
   }

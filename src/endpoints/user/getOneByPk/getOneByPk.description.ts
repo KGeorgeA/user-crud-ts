@@ -9,15 +9,14 @@ type ResponseBody = {
 }
 
 type RequestBody = {
-  oldPassword: string;
-  password: string;
-}
-
-type RequestQuery = {
   //
 }
 
-type ChangePasswordControllerType =
+type RequestQuery = {
+  userId: string;
+}
+
+type GetOneByPkControllerType =
   RequestHandler<RequestParams, ResponseBody, RequestBody, RequestQuery>
 
-export default ChangePasswordControllerType;
+export default GetOneByPkControllerType;
