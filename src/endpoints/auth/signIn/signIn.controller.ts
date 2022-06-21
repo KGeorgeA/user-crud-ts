@@ -1,13 +1,15 @@
+import { StatusCodes } from 'http-status-codes';
 import type SignInControllerType from '../signIn/signIn.description';
 import authService from '../../../services/authService/auth';
 import logger from '../../../utils/logger';
-// import createError, { createInternalServerError } from '../../../utils/createError';
+import token from '../../../utils/token';
+import CustomError, { createInternalServerError } from '../../../utils/CustomError';
 
 const signIn: SignInControllerType = async (
   req,
   res,
+  next,
 ) => {
-  logger.info(req.body, `signInController, ${__filename}`);
   try {
     const requestData = {
       email: req.body.email,
@@ -15,11 +17,25 @@ const signIn: SignInControllerType = async (
     };
 
     const user = await authService.signIn(requestData);
+    if (!user) {
+      throw new CustomError<{
+        email: string;
+        password: string;
+      }>({
+        data: requestData,
+        message: 'User does not exist',
+        statusCode: StatusCodes.UNAUTHORIZED,
+      });
+    }
+    const userToken = token.sign(user.id);
 
-    res.json({ data: { token: 'TOOOOKEN', user } });
+    res.json({ data: { token: userToken, user } });
   } catch (error) {
-    logger.error(error, 'Error occure in signIn controller');
-    // throw createInternalServerError();
+    if (error.message === 'CustomError') {
+      return next(error.customPayload);
+    }
+
+    // throw createInternalServerError('Can not sign you try again.');
   }
 };
 

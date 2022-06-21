@@ -1,4 +1,5 @@
 import type { RequestHandler } from 'express';
+import { User } from 'src/db/entities/User.entity';
 
 type RequestParams = {
   //
@@ -6,9 +7,12 @@ type RequestParams = {
 
 type ResponseBody = {
   data: {
-    token: string;
-    user: number; // instanceof 'user'
-  }
+    token: {
+      access: string;
+      refresh: string;
+    };
+    user: User;
+  },
 }
 
 type RequestBody = {

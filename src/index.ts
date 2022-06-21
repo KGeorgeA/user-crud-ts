@@ -1,11 +1,19 @@
-import log from './utils/logger';
-import config from './config';
 import app from './app';
+import dataSource from './db/appDataSource';
+import config from './config';
+import logger from './utils/logger';
 
 const PORT = config.server.port;
 
-// connection to database
+dataSource
+  .initialize()
+  .then(() => {
+    logger.info('Data Source has been initialized!');
+  })
+  .catch((error) => {
+    logger.error(error, 'Error ocured while Data Source initialization');
+  });
 
 app.listen(PORT, () => {
-  log.info(`App is listening at http://localhost:${PORT}`);
+  logger.info(`App is listening at http://localhost:${PORT}`);
 });

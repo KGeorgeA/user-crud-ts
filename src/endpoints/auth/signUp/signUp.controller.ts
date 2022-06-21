@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
+import db from '../../../db';
 import logger from '../../../utils/logger';
 import authService from '../../../services/authService/auth';
 import CustomError from '../../../utils/CustomError';

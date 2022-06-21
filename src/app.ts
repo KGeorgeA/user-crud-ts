@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from './middlewares/cors';
 import appRouter from './routes';
-// import errorHandler from './utils/errorHandler';
+import errorHandler from './utils/errorHandler';
 
 const app = express();
 
@@ -11,6 +11,6 @@ app.use(cors);
 
 app.use('/api', appRouter);
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 export default app;

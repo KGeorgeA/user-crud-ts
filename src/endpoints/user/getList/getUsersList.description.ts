@@ -1,11 +1,12 @@
 import type { RequestHandler } from 'express';
+import type { User } from 'src/db/entities/User.entity';
 
 type RequestParams = {
   //
 }
 
 type ResponseBody = {
-  // list: UserType[];
+  list: User[];
   total: number;
 }
 
