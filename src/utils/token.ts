@@ -3,7 +3,7 @@ import config from '../config';
 
 type TokenPayload = { userId: number; }
 
-export const sign = (
+const generateToken = (
   userId: number,
   key: 'accessTokenKey' | 'refreshTokenKey',
 ) => {
@@ -17,7 +17,12 @@ export const sign = (
   );
 };
 
-export const verify = (token: string, key: 'accessTokenKey' | 'refreshTokenKey'): Promise<TokenPayload> => {
+const sign = (userId: number) => ({
+  access: generateToken(userId, 'accessTokenKey'),
+  refresh: generateToken(userId, 'refreshTokenKey'),
+});
+
+const verify = (token: string, key: 'accessTokenKey' | 'refreshTokenKey'): Promise<TokenPayload> => {
   return new Promise((resolve, reject) => {
     jwt.verify(
       token,
@@ -35,6 +40,7 @@ export const verify = (token: string, key: 'accessTokenKey' | 'refreshTokenKey')
 };
 
 export default {
+  generateToken,
   sign,
   verify,
 };
