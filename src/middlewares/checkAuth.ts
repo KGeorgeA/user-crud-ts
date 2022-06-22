@@ -20,7 +20,7 @@ const checkAuth: RequestHandler = async (req, res, next) => {
     next();
   } catch (error) {
     if (error.name === 'TokenExpiredError') {
-      throw new CustomError<null>({
+      throw new CustomError({
         statusCode: StatusCodes.UNAUTHORIZED,
         message: 'Token is expired',
         data: null,
@@ -28,7 +28,7 @@ const checkAuth: RequestHandler = async (req, res, next) => {
     }
 
     if (error.name === 'JsonWebTokenError') {
-      throw new CustomError<null>({
+      throw new CustomError({
         statusCode: StatusCodes.UNAUTHORIZED,
         message: 'Token is invalid',
         data: null,

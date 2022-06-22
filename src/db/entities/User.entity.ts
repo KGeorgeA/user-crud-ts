@@ -5,27 +5,27 @@ export class User {
   @PrimaryGeneratedColumn()
     id: number;
 
-  @Column()
+  @Column({ nullable: true })
     firstName: string;
 
-  @Column()
+  @Column({ nullable: true })
     secondName: string;
 
-  @Column()
+  @Column({ nullable: true })
     age: number;
 
-  @Column()
+  @Column({ nullable: true })
     isMale: boolean;
 
-  @Column()
+  @Column({ nullable: false })
     email: string;
 
-  @Column()
+  @Column({ nullable: true })
     phone: string;
 
-  @Column()
+  @Column({ nullable: true })
     DoB: Date;
 
-  @Column()
+  @Column({ nullable: false })
     password: string;
 }

@@ -18,7 +18,11 @@ type EnvNames =
   | 'ACCESS_TOKEN_PRIVATE_KEY'
   | 'ACCESS_TOKEN_PRIVATE_KEY_EXPIRES_IN'
   | 'REFRESH_TOKEN_PRIVATE_KEY'
-  | 'REFRESH_TOKEN_PRIVATE_KEY_EXPIRES_IN';
+  | 'REFRESH_TOKEN_PRIVATE_KEY_EXPIRES_IN'
+  | 'HASH_SALT'
+  | 'HASH_ITERATIONS'
+  | 'HASH_KEYLEN'
+  | 'HASH_DIGEST';
 
 type ParsedEnvType = {
   [key in EnvNames]: string;
@@ -43,16 +47,24 @@ const config = {
     host: parsedEnv.DB__HOST,
     username: parsedEnv.DB__USERNAME,
     password: parsedEnv.DB__PASSWORD,
-    name: parsedEnv.DB__NAME,
+    database: parsedEnv.DB__NAME,
   },
   secrets: {
-    accessTokenKey: {
-      key: parsedEnv.ACCESS_TOKEN_PRIVATE_KEY,
-      expiresIn: parsedEnv.ACCESS_TOKEN_PRIVATE_KEY_EXPIRES_IN,
+    token: {
+      accessTokenKey: {
+        key: parsedEnv.ACCESS_TOKEN_PRIVATE_KEY,
+        expiresIn: parsedEnv.ACCESS_TOKEN_PRIVATE_KEY_EXPIRES_IN,
+      },
+      refreshTokenKey: {
+        key: parsedEnv.REFRESH_TOKEN_PRIVATE_KEY,
+        expiresIn: parsedEnv.REFRESH_TOKEN_PRIVATE_KEY_EXPIRES_IN,
+      },
     },
-    refreshTokenKey: {
-      key: parsedEnv.REFRESH_TOKEN_PRIVATE_KEY,
-      expiresIn: parsedEnv.REFRESH_TOKEN_PRIVATE_KEY_EXPIRES_IN,
+    hash: {
+      salt: parsedEnv.HASH_SALT,
+      iterations: +parsedEnv.HASH_ITERATIONS,
+      keylen: +parsedEnv.HASH_KEYLEN,
+      digest: parsedEnv.HASH_DIGEST,
     },
   },
 };

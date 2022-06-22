@@ -9,10 +9,10 @@ const generateToken = (
 ) => {
   return jwt.sign(
     { userId },
-    config.secrets[key].key,
+    config.secrets.token[key].key,
     {
       algorithm: 'HS256',
-      expiresIn: config.secrets[key].expiresIn,
+      expiresIn: config.secrets.token[key].expiresIn,
     },
   );
 };
@@ -26,7 +26,7 @@ const verify = (token: string, key: 'accessTokenKey' | 'refreshTokenKey'): Promi
   return new Promise((resolve, reject) => {
     jwt.verify(
       token,
-      config.secrets[key].key,
+      config.secrets.token[key].key,
       { algorithms: ['HS256'] },
       (error, decoded: TokenPayload) => {
         if (error) {

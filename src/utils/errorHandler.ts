@@ -1,15 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ErrorRequestHandler } from 'express';
-import CustomError from './CustomError';
-import logger from './logger';
+import CustomError, { CustomErrorPayload } from './CustomError';
 
-//                                               unknown for now?
-const errorHandler: ErrorRequestHandler = (err: CustomError<unknown>, req, res, next) => {
-  logger.error(err);
-  res.status(err.customPayload.statusCode).json({
-    status: err.customPayload.statusCode,
-    message: err.customPayload.message,
-    data: err.customPayload.data,
-  });
+type ResponseBody<T> = Omit<CustomErrorPayload<T>, 'type'>;
+export type ErrorHandlerType<T> = ErrorRequestHandler<unknown, ResponseBody<T>, unknown, unknown>
+
+const errorHandler: ErrorHandlerType<unknown> = (err: CustomError<unknown>, req, res, next) => {
+  res
+    .status(err.customPayload.statusCode)
+    .json({
+      statusCode: err.customPayload.statusCode,
+      message: err.customPayload.message,
+      data: err.customPayload.data,
+    });
 };
 
 export default errorHandler;

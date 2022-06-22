@@ -1,25 +1,24 @@
 import type { RequestHandler } from 'express';
 import { User } from '../../../db/entities/User.entity';
 
-type RequestParams = {
-  //
-}
+type RequestParams = unknown;
 
 type ResponseBody = {
   data: {
-    token: string;
+    token: {
+      access: string;
+      refresh: string;
+    };
     newUser: User;
   }
 }
 
-type RequestBody = {
+export type RequestBody = {
   email: string;
   password: string;
 }
 
-type RequestQuery = {
-  //
-}
+type RequestQuery = unknown;
 
 type SignUpControllerType = RequestHandler<RequestParams, ResponseBody, RequestBody, RequestQuery>
 

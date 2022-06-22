@@ -8,7 +8,7 @@ const dataSource = new DataSource({
   port: config.db.port,
   username: config.db.username,
   password: config.db.password,
-  database: config.db.name,
+  database: config.db.database,
   entities: [path.normalize(`${__dirname}/./entities/*.entity.{ts,js}`)],
   migrations: [path.normalize(`${__dirname}/./migrations/*.{ts,js}`)],
   logging: false,

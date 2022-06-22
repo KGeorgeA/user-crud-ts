@@ -1,16 +1,12 @@
 import type { RequestHandler } from 'express';
 
 type RequestParams = {
-  id: number;
+  userId: number;
 }
 
-type ResponseBody = {
-  //
-}
+type ResponseBody = unknown;
 
-type RequestBody = {
-  //
-}
+type RequestBody = unknown;
 
 type RequestQuery = {
   userId: string;

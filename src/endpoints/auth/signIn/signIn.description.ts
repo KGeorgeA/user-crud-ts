@@ -1,9 +1,7 @@
 import type { RequestHandler } from 'express';
 import { User } from 'src/db/entities/User.entity';
 
-type RequestParams = {
-  //
-}
+type RequestParams = unknown;
 
 type ResponseBody = {
   data: {
@@ -20,9 +18,7 @@ type RequestBody = {
   password: string;
 }
 
-type RequestQuery = {
-  //
-}
+type RequestQuery = unknown;
 
 type SignInControllerType = RequestHandler<RequestParams, ResponseBody, RequestBody, RequestQuery>
 

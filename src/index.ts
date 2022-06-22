@@ -3,17 +3,17 @@ import dataSource from './db/appDataSource';
 import config from './config';
 import logger from './utils/logger';
 
-const PORT = config.server.port;
+(async () => {
+  await dataSource
+    .initialize()
+    .catch((error) => {
+      logger.error(error, 'Error ocured while Data Source initialization');
+      process.exit(1);
+    });
 
-dataSource
-  .initialize()
-  .then(() => {
-    logger.info('Data Source has been initialized!');
-  })
-  .catch((error) => {
-    logger.error(error, 'Error ocured while Data Source initialization');
+  logger.info('Data Source has been initialized!');
+
+  app.listen(config.server.port, () => {
+    logger.info(`App is listening at http://localhost:${config.server.port}`);
   });
-
-app.listen(PORT, () => {
-  logger.info(`App is listening at http://localhost:${PORT}`);
-});
+})();

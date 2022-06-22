@@ -3,7 +3,7 @@ import UpdateControllerType from './update.description';
 
 const updateUserInfo: UpdateControllerType = async (req, res) => {
   try {
-    // const { id } = req.params;
+    // const { userId } = req.params;
 
     // const newData: {
     //   firstName?: string;

@@ -1,6 +1,6 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
-type CustomPayload<T> = {
+export type CustomErrorPayload<T> = {
   statusCode: StatusCodes;
   message: ReasonPhrases | string;
   data: T | null;
@@ -8,9 +8,9 @@ type CustomPayload<T> = {
 }
 
 class CustomError<T> extends Error {
-  customPayload: CustomPayload<T>;
+  customPayload: CustomErrorPayload<T>;
 
-  constructor(payload: CustomPayload<T>, nativeErrorMessage = 'CustomError') {
+  constructor(payload: CustomErrorPayload<T>, nativeErrorMessage = 'CustomError') {
     super(nativeErrorMessage);
     this.customPayload = payload;
   }

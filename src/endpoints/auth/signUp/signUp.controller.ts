@@ -1,9 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
-import db from '../../../db';
-import logger from '../../../utils/logger';
-import authService from '../../../services/authService/auth';
-import CustomError from '../../../utils/CustomError';
+import token from '../../../utils/token';
 import type SignUpControllerType from './signUp.description';
+import userService from '../../../services/userService';
+import hashString from '../../../utils/hashString';
+// import CustomError from '../../../utils/CustomError';
 
 const signUp: SignUpControllerType = async (
   req,
@@ -11,31 +11,42 @@ const signUp: SignUpControllerType = async (
   next,
 ) => {
   try {
-    const requestData = {
-      email: req.body.email,
-      password: req.body.password,
-    };
+    const {
+      email,
+      password,
+    } = req.body;
 
-    const newUser = await authService.signUp(requestData);
+    await userService.checkIfEmailTaken(email, true, 'Email already in use');
 
-    // if (!user) {
-    //   logger.info('User already exist');
-    //   res.status(StatusCodes.CONFLICT).json(`${ReasonPhrases.CONFLICT}. User already exist`);
-    //   throw new Error('User already exist');
-    // }
+    const newUser = await userService.createUser(
+      {
+        email,
+        password: hashString(password),
+      },
+      true,
+      'Can not create user.',
+    );
+
+    const newUserTokenPair = token.sign(newUser.id);
 
     res
       .status(StatusCodes.CREATED)
       .json({
         data: {
-          token: 'TOOOKEN',
+          token: newUserTokenPair,
           newUser,
         },
       });
   } catch (error) {
-    logger.error(error, 'Error occure in signUp controller');
+    if (error.message !== 'CustomError') {
+      error.customPayload = {
+        message: error.message,
+        data: null,
+        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      };
+    }
+
     next(error);
-    // throw createInternalServerError();
   }
 };
 

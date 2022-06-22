@@ -1,7 +1,7 @@
 import { User } from 'src/db/entities/User.entity';
 
-declare namespace Express {
-  export interface Request {
+declare module 'express-serve-static-core' {
+  interface Request {
     user?: User;
   }
 }

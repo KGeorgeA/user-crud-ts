@@ -1,9 +1,7 @@
 import type { RequestHandler } from 'express';
 import type { User } from 'src/db/entities/User.entity';
 
-type RequestParams = {
-  //
-}
+type RequestParams = unknown;
 
 type ResponseBody = {
   list: User[];

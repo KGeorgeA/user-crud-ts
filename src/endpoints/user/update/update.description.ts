@@ -1,12 +1,10 @@
 import type { RequestHandler } from 'express';
 
 type RequestParams = {
-  id: number;
+  userId: number;
 }
 
-type ResponseBody = {
-  //
-}
+type ResponseBody = unknown;
 
 type RequestBody = {
   firstName?: string;
@@ -15,9 +13,7 @@ type RequestBody = {
   phone?: string;
 }
 
-type RequestQuery = {
-  //
-}
+type RequestQuery = unknown;
 
 type UpdateControllerType = RequestHandler<RequestParams, ResponseBody, RequestBody, RequestQuery>;
 

@@ -1,21 +1,17 @@
 import type { RequestHandler } from 'express';
 
 type RequestParams = {
-  id: number;
+  userId: number;
 }
 
-type ResponseBody = {
-  //
-}
+type ResponseBody = unknown;
 
 type RequestBody = {
   oldPassword: string;
   password: string;
 }
 
-type RequestQuery = {
-  //
-}
+type RequestQuery = unknown;
 
 type ChangePasswordControllerType =
   RequestHandler<RequestParams, ResponseBody, RequestBody, RequestQuery>
