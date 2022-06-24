@@ -1,12 +1,9 @@
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
-import findOneBy from '../../../services/userService/findOneBy';
-import updateFields from '../../../services/userService/updateFields';
+import userService from '../../../services/userService';
 import compareStrings from '../../../utils/compareStrings';
 import CustomError from '../../../utils/CustomError';
 import hashString from '../../../utils/hashString';
 import type ChangePasswordControllerType from './changePassword.description';
-// import userService from '../../../services/userService';
-// import CustomError from '../../../utils/CustomError';
 
 const changePassword: ChangePasswordControllerType = async (req, res, next) => {
   try {
@@ -17,17 +14,24 @@ const changePassword: ChangePasswordControllerType = async (req, res, next) => {
       password,
     } = req.body;
 
-    if (userId !== req.user.id) {
+    if (+userId !== req.user.id) {
       throw new CustomError({
         message: 'Who are u? very sus', // ???
-        statusCode: StatusCodes.UNAUTHORIZED,
+        statusCode: StatusCodes.FORBIDDEN,
         data: null,
       });
     }
 
-    const user = await findOneBy({ id: userId }, true, 'User does not exist');
-
-    compareStrings(oldPassword, user.password, true, 'The old password is wrong');
+    if (!oldPassword || !password) {
+      throw new CustomError({
+        message: 'Some Fields are empty',
+        statusCode: StatusCodes.BAD_REQUEST,
+        data: {
+          oldPassword,
+          password,
+        },
+      });
+    }
 
     if (compareStrings(oldPassword, password)) {
       throw new CustomError({
@@ -40,12 +44,19 @@ const changePassword: ChangePasswordControllerType = async (req, res, next) => {
       });
     }
 
+    const user = await userService.findUserBy({ id: +userId }, true, 'User does not exist');
+
+    compareStrings(oldPassword, user.password, true, 'The old password is wrong');
+
     // phone/email confirm
 
-    const updatedUser = await updateFields({ id: userId }, { password: hashString(password) });
+    const updatedUser = await userService.updateUserFields(
+      { id: +userId },
+      { password: hashString(password) },
+    );
 
     res
-      .status(StatusCodes.CREATED)
+      .status(StatusCodes.IM_A_TEAPOT) // 200?
       .json({
         data: {
           user: updatedUser,

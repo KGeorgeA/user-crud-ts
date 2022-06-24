@@ -1,5 +1,7 @@
+import { StatusCodes } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
 import config from '../config';
+import CustomError from './CustomError';
 
 type TokenPayload = { userId: number; }
 
@@ -22,7 +24,11 @@ const sign = (userId: number) => ({
   refresh: generateToken(userId, 'refreshTokenKey'),
 });
 
-const verify = (token: string, key: 'accessTokenKey' | 'refreshTokenKey'): Promise<TokenPayload> => {
+const verify = (
+  token: string,
+  key: 'accessTokenKey' | 'refreshTokenKey',
+  shouldThrowError = false,
+): Promise<TokenPayload> => {
   return new Promise((resolve, reject) => {
     jwt.verify(
       token,
@@ -30,7 +36,15 @@ const verify = (token: string, key: 'accessTokenKey' | 'refreshTokenKey'): Promi
       { algorithms: ['HS256'] },
       (error, decoded: TokenPayload) => {
         if (error) {
-          return reject(error);
+          if (!shouldThrowError) {
+            reject(error);
+          }
+
+          throw new CustomError({
+            statusCode: StatusCodes.UNAUTHORIZED,
+            message: error.message,
+            data: null,
+          });
         }
 
         resolve(decoded);

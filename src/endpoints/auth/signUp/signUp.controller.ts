@@ -3,7 +3,6 @@ import token from '../../../utils/token';
 import type SignUpControllerType from './signUp.description';
 import userService from '../../../services/userService';
 import hashString from '../../../utils/hashString';
-// import CustomError from '../../../utils/CustomError';
 
 const signUp: SignUpControllerType = async (
   req,
@@ -27,13 +26,11 @@ const signUp: SignUpControllerType = async (
       'Can not create user.',
     );
 
-    const newUserTokenPair = token.sign(newUser.id);
-
     res
       .status(StatusCodes.CREATED)
       .json({
         data: {
-          token: newUserTokenPair,
+          token: token.sign(newUser.id),
           newUser,
         },
       });

@@ -1,41 +1,28 @@
-import type { RequestHandler } from 'express';
+import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import CustomError, { createInternalServerError } from 'src/utils/CustomError';
-// import { StatusCodes } from 'http-status-codes';
-// import token from 'src/utils/token';
+import findUserBy from '../services/userService/findUserBy';
+import token from '../utils/token';
 
 const checkAuth: RequestHandler = async (req, res, next) => {
   try {
-    // const tokenString = (req.headers.authorization || '').replace(/^Bearer /, '');
-    // const { userId } = await token.verify(tokenString, 'accessTokenKey');
+    const tokenString = (req.headers.authorization || '').replace(/^Bearer /, '');
+    const { userId } = await token.verify(tokenString, 'accessTokenKey', true);
 
-    // const user = await db.entities.repo.findByPk(userId);
+    const user = await findUserBy({ id: userId }, true, 'User does not exist');
 
-    // if (!user) {
-    //   res.status(StatusCodes.UNAUTHORIZED).json('User not found');
-    // }
-
-    // req.user = user;
+    req.user = user;
 
     next();
   } catch (error) {
-    if (error.name === 'TokenExpiredError') {
-      throw new CustomError({
-        statusCode: StatusCodes.UNAUTHORIZED,
-        message: 'Token is expired',
+    if (error.message !== 'CustomError') {
+      error.customPayload = {
+        message: error.message,
         data: null,
-      }, error.message);
+        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      };
     }
 
-    if (error.name === 'JsonWebTokenError') {
-      throw new CustomError({
-        statusCode: StatusCodes.UNAUTHORIZED,
-        message: 'Token is invalid',
-        data: null,
-      }, error.message);
-    }
-
-    throw createInternalServerError();
+    next(error);
   }
 };
 

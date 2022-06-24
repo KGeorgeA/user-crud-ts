@@ -1,21 +1,22 @@
 import type { RequestHandler } from 'express';
 import type { User } from 'src/db/entities/User.entity';
+import type { FindOptionsWhere, FindOptionsOrder } from 'typeorm';
 
 type RequestParams = unknown;
 
 type ResponseBody = {
-  list: User[];
-  total: number;
+  data: {
+    list: User[];
+    total: number;
+  }
 }
 
 type RequestBody = {
   page: number;
   perPage: number;
-  sortBy: string;
-  sortDirection: 'asc' | 'desc';
-  search: string;
-  isMale: boolean;
-  age: number[];
+  sortBy?: FindOptionsOrder<User>;
+  search?: string;
+  where?: FindOptionsWhere<User> | FindOptionsWhere<User>[]
 }
 
 // TO-DO: type it

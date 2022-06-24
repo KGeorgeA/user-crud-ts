@@ -1,5 +1,14 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
+export enum UserGender {
+  MALE = 'male',
+  FEMALE = 'female',
+
+}
+export enum UserRoleType {
+  ADMIN = 'admin',
+  USER = 'user',
+}
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -9,15 +18,20 @@ export class User {
     firstName: string;
 
   @Column({ nullable: true })
-    secondName: string;
+    lastName: string;
 
   @Column({ nullable: true })
     age: number;
 
-  @Column({ nullable: true })
-    isMale: boolean;
+  @Column({
+    type: 'enum',
+    enum: UserGender,
+    default: null,
+    nullable: true,
+  })
+    gender: UserGender;
 
-  @Column({ nullable: false })
+  @Column()
     email: string;
 
   @Column({ nullable: true })
@@ -26,6 +40,13 @@ export class User {
   @Column({ nullable: true })
     DoB: Date;
 
-  @Column({ nullable: false })
+  @Column()
     password: string;
+
+  @Column({
+    type: 'enum',
+    enum: UserRoleType,
+    default: UserRoleType.USER,
+  })
+    role: UserRoleType;
 }

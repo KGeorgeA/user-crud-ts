@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import findOneBy from '../../../services/userService/findOneBy';
+import userService from '../../../services/userService';
 import compareStrings from '../../../utils/compareStrings';
 import token from '../../../utils/token';
 import type SignInControllerType from '../signIn/signIn.description';
@@ -15,7 +15,7 @@ const signIn: SignInControllerType = async (
       password,
     } = req.body;
 
-    const user = await findOneBy({ email }, true, 'User does not exist');
+    const user = await userService.findUserBy({ email }, true, 'User does not exist');
 
     compareStrings(password, user.password, true, 'Passwords do not match');
 

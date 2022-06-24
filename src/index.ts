@@ -14,6 +14,6 @@ import logger from './utils/logger';
   logger.info('Data Source has been initialized!');
 
   app.listen(config.server.port, () => {
-    logger.info(`App is listening at http://localhost:${config.server.port}`);
+    logger.info(`App is listening at ${config.server.port} Port`);
   });
 })();

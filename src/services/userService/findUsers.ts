@@ -1,16 +1,18 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
-import { FindOptionsWhere } from 'typeorm';
+import { FindManyOptions } from 'typeorm';
 import db from '../../db';
 import type { User } from '../../db/entities/User.entity';
 import CustomError from '../../utils/CustomError';
 
-const findOneBy = async (
-  params: FindOptionsWhere<User> | FindOptionsWhere<User>[],
+const findUsers = async (
+  // TO-DO: type for builder but not for find method e.g. params: FilterType
+  params?: FindManyOptions<User>,
   shouldThrowError = false,
   message = '',
 ) => {
-  // ILike for strings?
-  const data = await db.user.findOneBy(params);
+  // prepare query?
+  const data = await db.user.findAndCount(params);
+  // queryBuilder for ILike (stringSearch)
 
   if (!data && shouldThrowError) {
     throw new CustomError({
@@ -23,4 +25,4 @@ const findOneBy = async (
   return data;
 };
 
-export default findOneBy;
+export default findUsers;

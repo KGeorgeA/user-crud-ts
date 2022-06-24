@@ -1,19 +1,20 @@
 import { /* ReasonPhrases, */ StatusCodes } from 'http-status-codes';
 import type { FindOptionsWhere } from 'typeorm';
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import db from '../../db';
 import type { User } from '../../db/entities/User.entity';
 import CustomError from '../../utils/CustomError';
-import findOneBy from './findOneBy';
+import findUserBy from './findUserBy';
 
-const updateFields = async (
+const updateUserFields = async (
   findParams: FindOptionsWhere<User>,
   updatedParams: QueryDeepPartialEntity<User>,
   // shouldThrowError = false,
   // message = '',
 ) => {
   // TO-DO: need to make columns READONLY in User ENTITY
-  await db.user.update(findParams, updatedParams)
+  await db.user
+    .update(findParams, updatedParams)
     .catch((error) => {
       throw new CustomError({
         message: error.message,
@@ -25,9 +26,9 @@ const updateFields = async (
       });
     });
 
-  const updatedUser = await findOneBy(findParams);
+  const updatedUser = await findUserBy(findParams);
 
   return updatedUser;
 };
 
-export default updateFields;
+export default updateUserFields;

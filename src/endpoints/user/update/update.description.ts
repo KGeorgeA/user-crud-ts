@@ -1,17 +1,17 @@
 import type { RequestHandler } from 'express';
+import type { User } from '../../../db/entities/User.entity';
 
 type RequestParams = {
-  userId: number;
+  userId: string;
 }
 
-type ResponseBody = unknown;
+type ResponseBody = {
+  data: {
+    updatedUser: User;
+  }
+};
 
-type RequestBody = {
-  firstName?: string;
-  secondName?: string;
-  email?: string;
-  phone?: string;
-}
+type RequestBody = Partial<Omit<User, 'id' | 'password'>>
 
 type RequestQuery = unknown;
 

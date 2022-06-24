@@ -1,12 +1,13 @@
 import { StatusCodes } from 'http-status-codes';
-import findOneBy from '../../../services/userService/findOneBy';
-import GetOneByPkControllerType from './getOneByPk.description';
+import userService from '../../../services/userService';
+import type GetOneByPkControllerType from './getOneByPk.description';
 
 const getOneByPk: GetOneByPkControllerType = async (req, res, next) => {
   try {
     const { userId } = req.params;
 
-    const user = await findOneBy({ id: userId }, true, 'User does not exist');
+    const user = await userService.findUserBy({ id: +userId }, true, 'User does not exist');
+
     res
       .status(200)
       .json({

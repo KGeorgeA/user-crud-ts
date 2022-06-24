@@ -1,27 +1,49 @@
-// import userService from '../../../services/user';
-import UpdateControllerType from './update.description';
+import { StatusCodes } from 'http-status-codes';
+import userService from '../../../services/userService';
+import CustomError from '../../../utils/CustomError';
+import type UpdateControllerType from './update.description';
 
-const updateUserInfo: UpdateControllerType = async (req, res) => {
+const updateUserInfo: UpdateControllerType = async (req, res, next) => {
   try {
-    // const { userId } = req.params;
+    const { userId } = req.params;
 
-    // const newData: {
-    //   firstName?: string;
-    //   secondName?: string;
-    //   email?: string;
-    //   phone?: string;
-    // } = {
-    //   firstName: req.body.firstName,
-    //   secondName: req.body.secondName,
-    //   email: req.body.email,
-    //   phone: req.body.firstName,
-    // };
+    const newData = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phone: req.body.phone,
+      gender: req.body.gender,
+      role: req.body.role,
+      // age: req.body.age,
+      // DoB: req.body.DoB,
+    };
 
-    // const data = await userService.updatePassword(newData);
+    // "if admin then ok" middleware?)))
+    if (+userId !== req.user.id) {
+      throw new CustomError({
+        message: 'Who are u? very sus', // ???
+        statusCode: StatusCodes.FORBIDDEN,
+        data: null,
+      });
+    }
 
-    // res.json(data);
+    const data = await userService.updateUserFields({ id: +userId }, newData);
+
+    res.json({
+      data: {
+        updatedUser: data,
+      },
+    });
   } catch (error) {
-    // typical error throw?
+    if (error.message !== 'CustomError') {
+      error.customPayload = {
+        message: error.message,
+        data: null,
+        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      };
+    }
+
+    next(error);
   }
 };
 
