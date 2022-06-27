@@ -1,27 +1,26 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+/* eslint-disable indent */
+import { Entity, Column, PrimaryGeneratedColumn, AfterLoad } from 'typeorm';
 
 export enum UserGender {
   MALE = 'male',
   FEMALE = 'female',
-
 }
+
 export enum UserRoleType {
   ADMIN = 'admin',
   USER = 'user',
 }
+
 @Entity()
-export class User {
+class User {
   @PrimaryGeneratedColumn()
-    id: number;
+  id: number;
 
   @Column({ nullable: true })
-    firstName: string;
+  firstName: string;
 
   @Column({ nullable: true })
-    lastName: string;
-
-  @Column({ nullable: true })
-    age: number;
+  lastName: string;
 
   @Column({
     type: 'enum',
@@ -29,24 +28,36 @@ export class User {
     default: null,
     nullable: true,
   })
-    gender: UserGender;
+  gender: UserGender;
 
-  @Column()
-    email: string;
-
-  @Column({ nullable: true })
-    phone: string;
+  @Column({ unique: true })
+  email: string;
 
   @Column({ nullable: true })
-    DoB: Date;
+  phone: string;
+
+  @Column({ nullable: true })
+  DoB: Date;
 
   @Column()
-    password: string;
+  password: string;
 
   @Column({
     type: 'enum',
     enum: UserRoleType,
     default: UserRoleType.USER,
   })
-    role: UserRoleType;
+  role: UserRoleType;
+
+  age: number;
+
+  fullName: string;
+
+  @AfterLoad()
+  getVirtualFields() {
+    this.age = 123;
+    this.fullName = `${this.firstName} ${this.lastName}`;
+  }
 }
+
+export default User;

@@ -6,7 +6,7 @@ const getOneByPk: GetOneByPkControllerType = async (req, res, next) => {
   try {
     const { userId } = req.params;
 
-    const user = await userService.findUserBy({ id: +userId }, true, 'User does not exist');
+    const user = await userService.findUserBy({ id: +userId }, true);
 
     res
       .status(200)

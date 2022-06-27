@@ -8,7 +8,7 @@ const checkAuth: RequestHandler = async (req, res, next) => {
     const tokenString = (req.headers.authorization || '').replace(/^Bearer /, '');
     const { userId } = await token.verify(tokenString, 'accessTokenKey', true);
 
-    const user = await findUserBy({ id: userId }, true, 'User does not exist');
+    const user = await findUserBy({ id: userId }, true);
 
     req.user = user;
 

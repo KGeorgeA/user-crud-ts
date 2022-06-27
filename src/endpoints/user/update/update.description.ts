@@ -1,5 +1,5 @@
 import type { RequestHandler } from 'express';
-import type { User } from '../../../db/entities/User.entity';
+import type User from '../../../db/entities/User.entity';
 
 type RequestParams = {
   userId: string;

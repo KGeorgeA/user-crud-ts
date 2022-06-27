@@ -1,5 +1,5 @@
 import type { RequestHandler } from 'express';
-import { User } from '../../../db/entities/User.entity';
+import User from '../../../db/entities/User.entity';
 
 type RequestParams = unknown;
 
@@ -10,7 +10,7 @@ type ResponseBody = {
       refresh: string;
     };
     newUser: User;
-  }
+  },
 }
 
 export type RequestBody = {

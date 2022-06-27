@@ -2,7 +2,7 @@ import { /* ReasonPhrases, */ StatusCodes } from 'http-status-codes';
 import type { FindOptionsWhere } from 'typeorm';
 import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import db from '../../db';
-import type { User } from '../../db/entities/User.entity';
+import type User from '../../db/entities/User.entity';
 import CustomError from '../../utils/CustomError';
 import findUserBy from './findUserBy';
 

@@ -14,7 +14,6 @@ const updateUserInfo: UpdateControllerType = async (req, res, next) => {
       phone: req.body.phone,
       gender: req.body.gender,
       role: req.body.role,
-      // age: req.body.age,
       // DoB: req.body.DoB,
     };
 

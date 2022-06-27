@@ -1,5 +1,5 @@
 import type { RequestHandler } from 'express';
-import type { User } from 'src/db/entities/User.entity';
+import type User from 'src/db/entities/User.entity';
 import type { FindOptionsWhere, FindOptionsOrder } from 'typeorm';
 
 type RequestParams = unknown;
@@ -11,17 +11,14 @@ type ResponseBody = {
   }
 }
 
-type RequestBody = {
+type RequestBody = unknown;
+
+type RequestQuery = {
   page: number;
   perPage: number;
-  sortBy?: FindOptionsOrder<User>;
+  sort?: FindOptionsOrder<User>;
   search?: string;
-  where?: FindOptionsWhere<User> | FindOptionsWhere<User>[]
-}
-
-// TO-DO: type it
-type RequestQuery = {
-  [key: string]: string;
+  sortBy?: FindOptionsWhere<User> | FindOptionsWhere<User>[]
 }
 
 type GetUsersListControllerType =

@@ -1,7 +1,7 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { FindManyOptions } from 'typeorm';
 import db from '../../db';
-import type { User } from '../../db/entities/User.entity';
+import type User from '../../db/entities/User.entity';
 import CustomError from '../../utils/CustomError';
 
 const findUsers = async (

@@ -5,11 +5,10 @@ import type GetUsersListControllerType from './getUsersList.description';
 const getUsersList: GetUsersListControllerType = async (req, res, next) => {
   try {
     const filter = {
-      page: +req.body.page,
-      perPage: +req.body.perPage,
-      // sortBy: req.body.sortBy,
-      search: req.body.search,
-      where: req.body.where,
+      page: +req.query.page,
+      perPage: +req.query.perPage,
+      search: req.query.search,
+      sortBy: req.query.sortBy,
     };
 
     /*
@@ -20,7 +19,7 @@ const getUsersList: GetUsersListControllerType = async (req, res, next) => {
       take: filter.perPage,
       skip: (filter.page - 1) * filter.perPage,
       // order: filter.sortBy,
-      where: filter.where,
+      where: filter.sortBy,
     });
     res.json({
       data: {

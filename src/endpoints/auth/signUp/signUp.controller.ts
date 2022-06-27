@@ -15,7 +15,7 @@ const signUp: SignUpControllerType = async (
       password,
     } = req.body;
 
-    await userService.checkIfEmailTaken(email, true, 'Email already in use');
+    await userService.checkIfEmailTaken(email, true);
 
     const newUser = await userService.createUser(
       {
@@ -23,7 +23,6 @@ const signUp: SignUpControllerType = async (
         password: hashString(password),
       },
       true,
-      'Can not create user.',
     );
 
     res

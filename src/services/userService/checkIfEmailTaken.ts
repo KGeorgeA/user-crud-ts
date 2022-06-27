@@ -1,23 +1,19 @@
-import { StatusCodes, ReasonPhrases } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import db from '../../db';
 import CustomError from '../../utils/CustomError';
 
-const checkIfEmailTaken = async (email: string, shouldThrowError = false, message = ''): Promise<boolean> => {
+const checkIfEmailTaken = async (email: string, shouldThrowError = false): Promise<boolean> => {
   const user = await db.user.findOneBy({ email });
 
   if (user && shouldThrowError) {
     throw new CustomError({
       statusCode: StatusCodes.CONFLICT,
-      message: `${ReasonPhrases.CONFLICT}\n${message ?? ''}`,
+      message: 'Email already in use',
       data: email,
     });
   }
 
-  if (user) {
-    return true;
-  }
-
-  return false;
+  return !!user;
 };
 
 export default checkIfEmailTaken;

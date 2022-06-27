@@ -6,7 +6,7 @@ const deleteOne: DeleteUserControllerType = async (req, res, next) => {
   try {
     const { userId } = req.body;
 
-    const deletedUser = await userService.findUserBy({ id: userId }, true, 'User does not exist');
+    const deletedUser = await userService.findUserBy({ id: userId }, true);
 
     await userService.deleteUser(userId);
 

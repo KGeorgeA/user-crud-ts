@@ -1,4 +1,4 @@
-import { StatusCodes, ReasonPhrases } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import userService from '../../../services/userService';
 import compareStrings from '../../../utils/compareStrings';
 import CustomError from '../../../utils/CustomError';
@@ -16,7 +16,7 @@ const changePassword: ChangePasswordControllerType = async (req, res, next) => {
 
     if (+userId !== req.user.id) {
       throw new CustomError({
-        message: 'Who are u? very sus', // ???
+        message: 'User id', // ???
         statusCode: StatusCodes.FORBIDDEN,
         data: null,
       });
@@ -26,27 +26,20 @@ const changePassword: ChangePasswordControllerType = async (req, res, next) => {
       throw new CustomError({
         message: 'Some Fields are empty',
         statusCode: StatusCodes.BAD_REQUEST,
-        data: {
-          oldPassword,
-          password,
-        },
+        data: null,
       });
     }
 
-    if (compareStrings(oldPassword, password)) {
-      throw new CustomError({
-        message: `${ReasonPhrases.BAD_REQUEST}\nThe new password matches the old one`,
-        statusCode: StatusCodes.BAD_REQUEST,
-        data: {
-          oldPassword,
-          password,
-        },
-      });
-    }
-
-    const user = await userService.findUserBy({ id: +userId }, true, 'User does not exist');
+    const user = await userService.findUserBy({ id: +userId }, true);
 
     compareStrings(oldPassword, user.password, true, 'The old password is wrong');
+    if (!compareStrings(password, user.password)) {
+      throw new CustomError({
+        message: 'The new password matches the old one',
+        statusCode: StatusCodes.BAD_REQUEST,
+        data: null,
+      });
+    }
 
     // phone/email confirm
 
@@ -56,7 +49,7 @@ const changePassword: ChangePasswordControllerType = async (req, res, next) => {
     );
 
     res
-      .status(StatusCodes.IM_A_TEAPOT) // 200?
+      .status(StatusCodes.OK)
       .json({
         data: {
           user: updatedUser,

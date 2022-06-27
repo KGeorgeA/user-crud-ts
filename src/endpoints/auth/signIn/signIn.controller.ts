@@ -15,7 +15,7 @@ const signIn: SignInControllerType = async (
       password,
     } = req.body;
 
-    const user = await userService.findUserBy({ email }, true, 'User does not exist');
+    const user = await userService.findUserBy({ email }, true);
 
     compareStrings(password, user.password, true, 'Passwords do not match');
 
