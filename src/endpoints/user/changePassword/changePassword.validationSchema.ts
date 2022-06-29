@@ -3,7 +3,10 @@ import constants from '../../../utils/constants';
 
 const requestParams = {
   params: {
-    userId: yup.string().required('User id is required').matches(constants.numberRegex),
+    userId: yup
+      .string()
+      .required(constants.validationMessages.userRequired)
+      .matches(constants.numberRegex),
   },
 };
 
@@ -15,11 +18,9 @@ const requestBody = {
       .trim(),
     password: yup
       .string()
-      .required('Password is required')
+      .required(constants.validationMessages.passwordRequired)
       .trim()
-      // .min(4, 'Password must have at least 4 charachers')
       .min(4, constants.validationMessages.passwordMin)
-      // .max(16, 'Password can not be longer than 16 characters'),
       .max(16, constants.validationMessages.passwordMax),
   },
 };

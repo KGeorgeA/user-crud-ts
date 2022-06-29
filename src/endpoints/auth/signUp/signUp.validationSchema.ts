@@ -1,23 +1,19 @@
 import * as yup from 'yup';
 import constants from '../../../utils/constants';
 
-const requestBody = yup.object({
-  body: yup.object({
+const requestBody = {
+  body: {
     email: yup
       .string()
-      .required('Email is required')
+      .required(constants.validationMessages.emailRequired)
       .trim()
-      .email('Email is invalid'),
+      .email(constants.validationMessages.emailInvalid),
     password: yup
       .string()
-      .required('Password is required')
-      // .min(4, 'Password must have at least 4 charachers')
+      .required(constants.validationMessages.passwordRequired)
       .min(4, constants.validationMessages.passwordMin)
-      // .max(16, 'Password can not be longer than 16 characters'),
       .max(16, constants.validationMessages.passwordMax),
-  }),
-});
-
-export default {
-  ...requestBody,
+  },
 };
+
+export default requestBody;

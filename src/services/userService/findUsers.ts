@@ -1,28 +1,49 @@
-import { ReasonPhrases, StatusCodes } from 'http-status-codes';
-import { FindManyOptions } from 'typeorm';
-import db from '../../db';
-import type User from '../../db/entities/User.entity';
+import { StatusCodes } from 'http-status-codes';
+import db, { UserEntity } from '../../db';
 import CustomError from '../../utils/CustomError';
+import { Directions } from '../../utils/types';
+
+type ParamsType = {
+  pagination: {
+    page: number;
+    perPage: number;
+  },
+  order: {
+    sort?: keyof UserEntity;
+    direction?: Directions;
+  },
+  filter: {
+    roles?: 'admin' | 'user';
+    searchString?: string;
+  },
+}
 
 const findUsers = async (
-  // TO-DO: type for builder but not for find method e.g. params: FilterType
-  params?: FindManyOptions<User>,
+  params: ParamsType,
   shouldThrowError = false,
-  message = '',
 ) => {
-  // prepare query?
-  const data = await db.user.findAndCount(params);
-  // queryBuilder for ILike (stringSearch)
+  const filter = {
+    skip: (params.pagination.page - 1) * params.pagination.perPage,
+    take: params.pagination.perPage,
+    order: {
+      [params.order.sort]: params.order.direction,
+    },
+  };
 
-  if (!data && shouldThrowError) {
+  const [users, count] = await db.user.findAndCount(filter);
+
+  if (!users.length && shouldThrowError) {
     throw new CustomError({
       statusCode: StatusCodes.NOT_FOUND,
-      message: `${ReasonPhrases.NOT_FOUND}\n${message ?? ''}`,
-      data: params,
+      message: 'Nothing could be found according to your request',
+      data: null,
     });
   }
 
-  return data;
+  return {
+    users,
+    count,
+  };
 };
 
 export default findUsers;

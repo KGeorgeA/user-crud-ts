@@ -9,20 +9,14 @@ import findUserBy from './findUserBy';
 const updateUserFields = async (
   findParams: FindOptionsWhere<User>,
   updatedParams: QueryDeepPartialEntity<User>,
-  // shouldThrowError = false,
-  // message = '',
 ) => {
-  // TO-DO: need to make columns READONLY in User ENTITY
   await db.user
     .update(findParams, updatedParams)
     .catch((error) => {
       throw new CustomError({
         message: error.message,
         statusCode: StatusCodes.IM_A_TEAPOT, // TO-DO: change status
-        data: {
-          findParams,
-          updatedParams,
-        },
+        data: null,
       });
     });
 

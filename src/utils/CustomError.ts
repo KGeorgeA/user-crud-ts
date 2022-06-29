@@ -4,7 +4,7 @@ export type CustomErrorPayload<T> = {
   statusCode: StatusCodes;
   message: ReasonPhrases | string;
   data: T | null;
-  type?: 'internal';
+  path?: string;
 }
 
 class CustomError<T> extends Error {
@@ -15,17 +15,5 @@ class CustomError<T> extends Error {
     this.customPayload = payload;
   }
 }
-
-export const createInternalServerError = <T = null>(
-  message?: string,
-  data: T = null,
-) => {
-  return new CustomError<T>({
-    message: `${ReasonPhrases.INTERNAL_SERVER_ERROR}\n${message ?? ''}`,
-    statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-    data,
-    type: 'internal',
-  });
-};
 
 export default CustomError;

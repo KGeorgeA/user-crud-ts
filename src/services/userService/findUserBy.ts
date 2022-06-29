@@ -8,16 +8,13 @@ const findUserBy = async (
   params: FindOptionsWhere<User> | FindOptionsWhere<User>[],
   shouldThrowError = false,
 ) => {
-  // prepare query?
-  // ILike for strings?
   const data = await db.user.findOneBy(params);
-  // queryBuilder for ILike (stringSearch)
 
   if (!data && shouldThrowError) {
     throw new CustomError({
       statusCode: StatusCodes.NOT_FOUND,
       message: 'User does not exist',
-      data: params,
+      data: null,
     });
   }
 

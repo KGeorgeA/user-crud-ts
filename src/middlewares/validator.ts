@@ -1,39 +1,40 @@
-import { Request, Response, NextFunction } from 'express';
-import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+import { Handler } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import * as yup from 'yup';
+import CustomError from '../utils/CustomError';
 
-const validator = (schema: unknown) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+// TO-DO: schema should be typed
+const validator = (schema: unknown): Handler => {
+  return async (req, res, next) => {
     try {
-      const keys = Object.keys(schema);
+      const errors = [];
 
-      // eslint-disable-next-line guard-for-in
-      for (const key in keys) {
-        // eslint-disable-next-line no-await-in-loop
+      await Promise.all(Object.entries(schema).map(async ([key, value]) => {
         await yup
           .object()
-          .shape(schema[keys[key]])
-          .validate(req[keys[key]], { abortEarly: false });
+          .shape(value)
+          .noUnknown(true, 'Unexpected field')
+          .validate(req[key], { abortEarly: false, strict: true })
+          .catch((err) => {
+            err.inner.forEach((error) => {
+              errors.push({
+                path: error.type === 'noUnknown' ? error.params.unknown.replace(', ', ' | ') : error.path,
+                message: error.message,
+              });
+            });
+          });
+      }));
+
+      if (errors.length) {
+        throw new CustomError({
+          message: 'Validation error',
+          statusCode: StatusCodes.BAD_REQUEST,
+          data: errors,
+        });
       }
 
       next();
     } catch (error) {
-      if (error.name === 'ValidationError') {
-        error.customPayload = {
-          message: 'Validation error',
-          statusCode: StatusCodes.BAD_REQUEST,
-          data: error.errors,
-        };
-      }
-
-      if (error.message !== 'CustomError' && error.name !== 'ValidationError') {
-        error.customPayload = {
-          message: ReasonPhrases.INTERNAL_SERVER_ERROR,
-          statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-          data: null,
-        };
-      }
-
       next(error);
     }
   };

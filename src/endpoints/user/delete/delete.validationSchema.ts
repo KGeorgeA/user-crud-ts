@@ -6,6 +6,4 @@ const requestBody = {
   },
 };
 
-export default {
-  ...requestBody,
-};
+export default requestBody;

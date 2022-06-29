@@ -9,10 +9,7 @@ const compareStrings = (str: string, str2: string, shouldThrowError = false, mes
     throw new CustomError({
       message: `${ReasonPhrases.UNAUTHORIZED}\n${message ?? ''}`,
       statusCode: StatusCodes.UNAUTHORIZED,
-      data: {
-        str,
-        str2,
-      },
+      data: null,
     });
   }
 

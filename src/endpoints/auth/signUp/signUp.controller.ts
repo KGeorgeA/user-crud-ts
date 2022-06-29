@@ -3,6 +3,7 @@ import token from '../../../utils/token';
 import type SignUpControllerType from './signUp.description';
 import userService from '../../../services/userService';
 import hashString from '../../../utils/hashString';
+import CustomError from '../../../utils/CustomError';
 
 const signUp: SignUpControllerType = async (
   req,
@@ -35,11 +36,13 @@ const signUp: SignUpControllerType = async (
       });
   } catch (error) {
     if (error.message !== 'CustomError') {
-      error.customPayload = {
-        message: error.message,
-        data: null,
-        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      };
+      next(
+        new CustomError({
+          message: error.message,
+          data: null,
+          statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+        }),
+      );
     }
 
     next(error);

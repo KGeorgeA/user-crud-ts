@@ -7,6 +7,4 @@ const requestParams = {
   },
 };
 
-export default {
-  ...requestParams,
-};
+export default requestParams;

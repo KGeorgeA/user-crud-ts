@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import { UserGender, UserRoleType } from '../../../db/entities/User.entity';
 import constants from '../../../utils/constants';
 
 const requestParams = {
@@ -10,15 +9,13 @@ const requestParams = {
 
 const requestBody = {
   body: {
-    updatedUser: {
-      firstName: yup.string(),
-      lastName: yup.string(),
-      gender: yup.string().oneOf([]),
-      email: yup.string().required().trim().email(),
-      phone: yup.string(),
-      DoB: yup.date(),
-      role: yup.string().oneOf([]),
-    },
+    firstName: yup.string(),
+    lastName: yup.string(),
+    gender: yup.string().oneOf(['male', 'female', null]),
+    email: yup.string().trim().email('Email is invalid'),
+    phone: yup.string(),
+    DoB: yup.date(),
+    role: yup.string().oneOf(['admin', 'user', null]),
   },
 };
 

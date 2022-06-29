@@ -1,41 +1,40 @@
 import { StatusCodes } from 'http-status-codes';
 import userService from '../../../services/userService';
+import CustomError from '../../../utils/CustomError';
 import type GetUsersListControllerType from './getUsersList.description';
 
 const getUsersList: GetUsersListControllerType = async (req, res, next) => {
   try {
-    const filter = {
-      page: +req.query.page,
-      perPage: +req.query.perPage,
-      search: req.query.search,
-      sortBy: req.query.sortBy,
+    const options = {
+      pagination: {
+        page: +req.query.page || 1,
+        perPage: +req.query.perPage || 10,
+      },
+      order: {
+        sort: req.query.sort,
+        direction: req.query.direction,
+      },
+      filter: {},
     };
 
-    /*
-      Prepare Filter Logic?
-    */
+    const data = await userService.findUsers(options);
 
-    const data = await userService.findUsers({
-      take: filter.perPage,
-      skip: (filter.page - 1) * filter.perPage,
-      // order: filter.sortBy,
-      where: filter.sortBy,
-    });
     res.json({
       data: {
-        list: data[0],
-        total: data[1],
+        list: data.users,
+        total: data.count,
       },
     });
   } catch (error) {
     if (error.message !== 'CustomError') {
-      error.customPayload = {
-        message: error.message,
-        data: null,
-        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      };
+      next(
+        new CustomError({
+          message: error.message,
+          data: null,
+          statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+        }),
+      );
     }
-
     next(error);
   }
 };

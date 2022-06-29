@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import findUserBy from '../services/userService/findUserBy';
+import CustomError from '../utils/CustomError';
 import token from '../utils/token';
 
 const checkAuth: RequestHandler = async (req, res, next) => {
@@ -15,11 +16,13 @@ const checkAuth: RequestHandler = async (req, res, next) => {
     next();
   } catch (error) {
     if (error.message !== 'CustomError') {
-      error.customPayload = {
-        message: error.message,
-        data: null,
-        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      };
+      next(
+        new CustomError({
+          message: error.message,
+          data: null,
+          statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+        }),
+      );
     }
 
     next(error);

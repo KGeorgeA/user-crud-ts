@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import userService from '../../../services/userService';
+import CustomError from '../../../utils/CustomError';
 import type GetOneByPkControllerType from './getOneByPk.description';
 
 const getOneByPk: GetOneByPkControllerType = async (req, res, next) => {
@@ -17,11 +18,13 @@ const getOneByPk: GetOneByPkControllerType = async (req, res, next) => {
       });
   } catch (error) {
     if (error.message !== 'CustomError') {
-      error.customPayload = {
-        message: error.message,
-        data: null,
-        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      };
+      next(
+        new CustomError({
+          message: error.message,
+          data: null,
+          statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+        }),
+      );
     }
 
     next(error);

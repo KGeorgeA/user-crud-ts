@@ -14,13 +14,11 @@ const updateUserInfo: UpdateControllerType = async (req, res, next) => {
       phone: req.body.phone,
       gender: req.body.gender,
       role: req.body.role,
-      // DoB: req.body.DoB,
     };
 
-    // "if admin then ok" middleware?)))
     if (+userId !== req.user.id) {
       throw new CustomError({
-        message: 'Who are u? very sus', // ???
+        message: 'You have no access for that',
         statusCode: StatusCodes.FORBIDDEN,
         data: null,
       });
@@ -35,13 +33,14 @@ const updateUserInfo: UpdateControllerType = async (req, res, next) => {
     });
   } catch (error) {
     if (error.message !== 'CustomError') {
-      error.customPayload = {
-        message: error.message,
-        data: null,
-        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      };
+      next(
+        new CustomError({
+          message: error.message,
+          data: null,
+          statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+        }),
+      );
     }
-
     next(error);
   }
 };

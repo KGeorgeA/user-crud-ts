@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import userService from '../../../services/userService';
 import compareStrings from '../../../utils/compareStrings';
+import CustomError from '../../../utils/CustomError';
 import token from '../../../utils/token';
 import type SignInControllerType from '../signIn/signIn.description';
 
@@ -27,11 +28,13 @@ const signIn: SignInControllerType = async (
     });
   } catch (error) {
     if (error.message !== 'CustomError') {
-      error.customPayload = {
-        message: error.message,
-        data: null,
-        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      };
+      next(
+        new CustomError({
+          message: error.message,
+          data: null,
+          statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+        }),
+      );
     }
 
     next(error);
