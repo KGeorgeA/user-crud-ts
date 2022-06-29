@@ -1,4 +1,4 @@
-import { /* ReasonPhrases, */ StatusCodes } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import type { FindOptionsWhere } from 'typeorm';
 import type { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import db from '../../db';
@@ -10,15 +10,15 @@ const updateUserFields = async (
   findParams: FindOptionsWhere<User>,
   updatedParams: QueryDeepPartialEntity<User>,
 ) => {
-  await db.user
-    .update(findParams, updatedParams)
-    .catch((error) => {
-      throw new CustomError({
-        message: error.message,
-        statusCode: StatusCodes.IM_A_TEAPOT, // TO-DO: change status
-        data: null,
-      });
+  const updateResults = await db.user.update(findParams, updatedParams);
+
+  if (!updateResults.affected) {
+    throw new CustomError({
+      message: 'Can not update user',
+      statusCode: StatusCodes.BAD_REQUEST,
+      data: null,
     });
+  }
 
   const updatedUser = await findUserBy(findParams);
 
