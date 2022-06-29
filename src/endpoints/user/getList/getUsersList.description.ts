@@ -2,16 +2,16 @@ import type { RequestHandler } from 'express';
 import { UserEntity } from '../../../db';
 import { Directions } from '../../../utils/types';
 
-type RequestParams = unknown;
+type RequestParams = Record<string, never>;
 
 type ResponseBody = {
   data: {
-    list: UserEntity[];
+    list: Omit<UserEntity, 'password'>[];
     total: number;
   }
 }
 
-type RequestBody = unknown;
+type RequestBody = Record<string, never>;
 
 type RequestQuery = {
   page: string;

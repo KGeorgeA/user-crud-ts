@@ -13,7 +13,7 @@ type ResponseBody = {
 
 type RequestBody = Partial<Omit<User, 'id' | 'password'>>
 
-type RequestQuery = unknown;
+type RequestQuery = Record<string, never>;
 
 type UpdateControllerType = RequestHandler<RequestParams, ResponseBody, RequestBody, RequestQuery>;
 

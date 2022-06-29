@@ -1,7 +1,7 @@
 import type { RequestHandler } from 'express';
 import type { UserEntity } from '../../../db';
 
-type RequestParams = unknown;
+type RequestParams = Record<string, never>;
 
 type ResponseBody = {
   data: {
@@ -18,7 +18,7 @@ export type RequestBody = {
   password: string;
 }
 
-type RequestQuery = unknown;
+type RequestQuery = Record<string, never>;
 
 type SignUpControllerType = RequestHandler<RequestParams, ResponseBody, RequestBody, RequestQuery>
 

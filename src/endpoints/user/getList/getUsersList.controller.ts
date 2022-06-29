@@ -1,6 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
+import { UserEntity } from '../../../db';
 import userService from '../../../services/userService';
 import CustomError from '../../../utils/CustomError';
+import excludeFields from '../../../utils/excludeFields';
 import type GetUsersListControllerType from './getUsersList.description';
 
 const getUsersList: GetUsersListControllerType = async (req, res, next) => {
@@ -19,9 +21,13 @@ const getUsersList: GetUsersListControllerType = async (req, res, next) => {
 
     const data = await userService.findUsers(options);
 
+    // legal cheats?
+    const filteredList = excludeFields(data.users as unknown as Record<string, unknown>[], 'password');
+
     res.json({
       data: {
-        list: data.users,
+        // legal cheats?
+        list: filteredList as Omit<UserEntity, 'password'>[],
         total: data.count,
       },
     });

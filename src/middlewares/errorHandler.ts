@@ -4,7 +4,11 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import CustomError, { CustomErrorPayload } from '../utils/CustomError';
 import logger from '../utils/logger';
 
-type ResponseBody<T> = Omit<CustomErrorPayload<T>, 'type'>;
+type ResponseBody<T> = {
+  data: {
+    error: Omit<CustomErrorPayload<T>, 'path'>;
+  }
+};
 export type ErrorHandlerType<T> = ErrorRequestHandler<unknown, ResponseBody<T>, unknown, unknown>
 
 const errorHandler: ErrorHandlerType<unknown> = (err: CustomError<unknown>, req, res, next) => {
@@ -16,9 +20,13 @@ const errorHandler: ErrorHandlerType<unknown> = (err: CustomError<unknown>, req,
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({
-        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-        message: `${ReasonPhrases.INTERNAL_SERVER_ERROR}\n${err.message ?? ''}`,
-        data: null,
+        data: {
+          error: {
+            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            message: `${ReasonPhrases.INTERNAL_SERVER_ERROR}\n${err.message ?? ''}`,
+            data: null,
+          },
+        },
       });
   }
 
@@ -30,9 +38,13 @@ const errorHandler: ErrorHandlerType<unknown> = (err: CustomError<unknown>, req,
   res
     .status(err.customPayload.statusCode)
     .json({
-      statusCode: err.customPayload.statusCode,
-      message: err.customPayload.message,
-      data: err.customPayload.data,
+      data: {
+        error: {
+          statusCode: err.customPayload.statusCode,
+          message: err.customPayload.message,
+          data: err.customPayload.data,
+        },
+      },
     });
 };
 

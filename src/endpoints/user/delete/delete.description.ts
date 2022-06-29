@@ -1,6 +1,6 @@
 import type { RequestHandler } from 'express';
 
-type RequestParams = unknown;
+type RequestParams = Record<string, never>;
 
 type ResponseBody = {
   data: {
@@ -12,7 +12,7 @@ type RequestBody = {
   userId: number;
 }
 
-type RequestQuery = unknown;
+type RequestQuery = Record<string, never>;
 
 type DeleteUserControllerType =
   RequestHandler<RequestParams, ResponseBody, RequestBody, RequestQuery>

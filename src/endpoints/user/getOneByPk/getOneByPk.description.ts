@@ -1,14 +1,19 @@
 import type { RequestHandler } from 'express';
+import type { UserEntity } from '../../../db';
 
 type RequestParams = {
   userId: string;
 }
 
-type ResponseBody = unknown;
+type ResponseBody = {
+  data: {
+    user: UserEntity;
+  }
+};
 
-type RequestBody = unknown;
+type RequestBody = Record<string, never>;
 
-type RequestQuery = unknown;
+type RequestQuery = Record<string, never>;
 
 type GetOneByPkControllerType =
   RequestHandler<RequestParams, ResponseBody, RequestBody, RequestQuery>
