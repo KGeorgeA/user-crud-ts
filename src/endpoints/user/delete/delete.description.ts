@@ -2,7 +2,11 @@ import type { RequestHandler } from 'express';
 
 type RequestParams = unknown;
 
-type ResponseBody = unknown;
+type ResponseBody = {
+  data: {
+    message: string;
+  };
+};
 
 type RequestBody = {
   userId: number;

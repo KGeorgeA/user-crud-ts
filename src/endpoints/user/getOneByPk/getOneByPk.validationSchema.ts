@@ -3,7 +3,10 @@ import constants from '../../../utils/constants';
 
 const requestParams = {
   params: {
-    userId: yup.string().required('User id is required').matches(constants.numberRegex),
+    userId: yup
+      .string()
+      .required(constants.validationMessages.userRequired)
+      .matches(constants.numberRegex),
   },
 };
 

@@ -13,7 +13,7 @@ const deleteUser = async (id: number) => {
     });
   }
 
-  return null;
+  return deleteResult;
 };
 
 export default deleteUser;

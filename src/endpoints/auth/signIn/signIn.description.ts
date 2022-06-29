@@ -1,5 +1,5 @@
 import type { RequestHandler } from 'express';
-import { UserEntity } from '../../../db';
+import type { UserEntity } from '../../../db';
 
 type RequestParams = unknown;
 

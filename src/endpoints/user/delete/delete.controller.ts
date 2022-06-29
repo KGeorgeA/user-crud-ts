@@ -11,7 +11,6 @@ const deleteOne: DeleteUserControllerType = async (req, res, next) => {
 
     res.json({
       data: {
-        // deletedUser,
         message: 'its seems that delete option was succeed',
       },
     });

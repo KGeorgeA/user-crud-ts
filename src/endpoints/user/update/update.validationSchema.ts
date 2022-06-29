@@ -3,7 +3,10 @@ import constants from '../../../utils/constants';
 
 const requestParams = {
   params: {
-    userId: yup.string().required('User id is required').matches(constants.numberRegex),
+    userId: yup
+      .string()
+      .required(constants.validationMessages.userRequired)
+      .matches(constants.numberRegex),
   },
 };
 
@@ -12,7 +15,7 @@ const requestBody = {
     firstName: yup.string(),
     lastName: yup.string(),
     gender: yup.string().oneOf(['male', 'female', null]),
-    email: yup.string().trim().email('Email is invalid'),
+    email: yup.string().trim().email(constants.validationMessages.emailInvalid),
     phone: yup.string(),
     DoB: yup.date(),
     role: yup.string().oneOf(['admin', 'user', null]),
