@@ -39,7 +39,7 @@ class User {
   @Column({ nullable: true })
   DoB: Date;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
   @Column({
